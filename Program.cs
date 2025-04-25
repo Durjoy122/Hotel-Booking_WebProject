@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using WhiteLagoon.Application.Common.Interfaces;
+using WhiteLagoon.Infrastructure.Data;
+using WhiteLagoon.Infrastructure.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // Register the VillaRepository as a service
 
 var app = builder.Build();
 
